@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Karl Johnson" />
+    <meta
+      name="description"
+      content="Karl Johnson's submission for PS 2025-RTT-30 Lab 5.2: Interactive User Registration Form." />
+    <title>Lab 5.2: Interactive User Registration Form</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <div class="row">
+        <div
+          class="col-xl-4 offset-xl-4 col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-10 offset-sm-1">
+          <div class="my-5">
+            <h1>Lab 5.2: Interactive User Registration Form</h1>
+          </div>
+          <form id="form" class="p-3 border rounded-3 needs-validation" novalidate>
+            <fieldset>
+              <legend>Register</legend>
+              <div class="mb-3">
+                <label for="username-input">Username:</label>
+                <input
+                  type="text"
+                  name="username"
+                  id="username-input"
+                  class="form-control"
+                  minlength="8"
+                  pattern="^[a-zA-Z0-9_]{8,}$"
+                  required />
+                <span id="username-error" class="text-danger"></span>
+              </div>
+              <div class="mb-3">
+                <label for="email-input">Email:</label>
+                <!--Regex pattern from https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s01.html-->
+                <input
+                  type="email"
+                  name="email"
+                  id="email-input"
+                  class="form-control"
+                  pattern="^[\w!#$%&'*+/=?`{|}~^-]+(?:\.[\w!#$%&'*+/=?`{|}~^-]+)*@(?:[A-Z0-9-]+\.)+[A-Z]{2,6}$"
+                  required />
+                <span id="email-error" class="text-danger"></span>
+              </div>
+              <div class="mb-3">
+                <label for="password-input">Password:</label>
+                <!--Regex pattern from https://uibakery.io/regex-library/password-->
+                <input
+                  type="password"
+                  name="password"
+                  id="password-input"
+                  class="form-control"
+                  minlength="12"
+                  pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$"
+                  required />
+                <span id="password-error" class="text-danger"></span>
+              </div>
+              <div class="mb-3">
+                <label for="password-confirm-input">Confirm Password:</label>
+                <input
+                  type="password"
+                  name="password-confirm"
+                  id="password-confirm-input"
+                  class="form-control"
+                  required />
+                <span id="password-confirm-error" class="text-danger"></span>
+              </div>
+              <div>
+                <button
+                  id="submit-button"
+                  type="submit"
+                  class="btn btn-lg btn-primary w-100">
+                  Submit
+                </button>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
