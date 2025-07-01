@@ -8,7 +8,7 @@
 
 ## Overview
 ### Viewer Instructions
-Navigate to []() to view the deployed app; view the submission source below.
+Navigate to [verdant-tapioca-ef934c.netlify.app/interactive-registration-form](https://verdant-tapioca-ef934c.netlify.app/interactive-registration-form/) to view the deployed app; view the submission source below.
 
 ### Submission Source
 - **HTML**: [`interactive-registration-form/index.html`](./interactive-registration-form/index.html)
