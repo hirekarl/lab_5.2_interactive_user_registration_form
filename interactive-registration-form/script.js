@@ -1,6 +1,6 @@
 function getUsernameFromLocalStorage() {
   const username = localStorage.getItem("username")
-  if (username !== null) usernameInput.value = JSON.parse(username)
+  if (username !== null && username !== "") usernameInput.value = JSON.parse(username)
   else localStorage.setItem("username", "")
 }
 
@@ -31,6 +31,7 @@ function handleForm(event) {
   successAlertNewUsernameSpan.textContent = username
   successAlert.hidden = false
   successAlert.setAttribute("aria-hidden", "false")
+
 }
 
 const usernameInput = document.getElementById("username-input")
