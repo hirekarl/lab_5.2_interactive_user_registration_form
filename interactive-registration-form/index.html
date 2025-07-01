@@ -19,11 +19,28 @@
     <main class="container">
       <div class="row">
         <div
+          id="success-alert"
+          class="alert alert-success alert-dismissible fade show"
+          role="alert"
+          aria-hidden="true"
+          hidden>
+          Username <strong><span id="new-username"></span></strong> saved to
+          local storage.
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"></button>
+        </div>
+        <div
           class="col-xl-4 offset-xl-4 col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-10 offset-sm-1">
           <div class="my-5">
             <h1>Lab 5.2: Interactive User Registration Form</h1>
           </div>
-          <form id="form" class="p-3 border rounded-3 needs-validation" novalidate>
+          <form
+            id="form"
+            class="p-3 border rounded-3 needs-validation"
+            novalidate>
             <fieldset>
               <legend>Register</legend>
               <div class="mb-3">
@@ -40,26 +57,24 @@
               </div>
               <div class="mb-3">
                 <label for="email-input">Email:</label>
-                <!--Regex pattern from https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s01.html-->
                 <input
                   type="email"
                   name="email"
                   id="email-input"
                   class="form-control"
-                  pattern="^[\w!#$%&'*+/=?`{|}~^-]+(?:\.[\w!#$%&'*+/=?`{|}~^-]+)*@(?:[A-Z0-9-]+\.)+[A-Z]{2,6}$"
                   required />
                 <span id="email-error" class="text-danger"></span>
               </div>
               <div class="mb-3">
                 <label for="password-input">Password:</label>
-                <!--Regex pattern from https://uibakery.io/regex-library/password-->
+                <!--Regex pattern from https://stackoverflow.com/questions/2370015/regular-expression-for-password-validation#2370045-->
                 <input
                   type="password"
                   name="password"
                   id="password-input"
                   class="form-control"
                   minlength="12"
-                  pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$"
+                  pattern='^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!#$%&?]).*$'
                   required />
                 <span id="password-error" class="text-danger"></span>
               </div>
@@ -87,6 +102,10 @@
         </div>
       </div>
     </main>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+      crossorigin="anonymous"></script>
     <script src="script.js"></script>
   </body>
 </html>

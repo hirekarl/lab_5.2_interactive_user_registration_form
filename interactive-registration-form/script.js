@@ -9,21 +9,28 @@ function saveUsernameToLocalStorage(username) {
 }
 
 const form = document.getElementById("form")
+const successAlert = document.getElementById("success-alert")
+const successAlertNewUsernameSpan = document.getElementById("new-username")
 
 function handleForm(event) {
   form.classList.remove("was-validated")
   form.classList.add("needs-validation")
   if (!form.checkValidity()) {
-    event.preventDefault()
+    form.reportValidity()
     event.stopPropagation()
+    return
   }
+
+  form.classList.remove("needs-validation")
+  form.classList.add("was-validated")
 
   const formData = new FormData(form)
   const username = formData.get("username")
   saveUsernameToLocalStorage(username)
 
-  form.classList.remove("needs-validation")
-  form.classList.add("was-validated")
+  successAlertNewUsernameSpan.textContent = username
+  successAlert.hidden = false
+  successAlert.setAttribute("aria-hidden", "false")
 }
 
 const usernameInput = document.getElementById("username-input")
@@ -33,27 +40,23 @@ function handleUsernameInput() {
   usernameInput.classList.remove("is-valid")
   usernameInput.classList.remove("is-invalid")
   usernameInput.setCustomValidity("")
+  usernameInput.removeAttribute("aria-describedby")
   const usernameIsValid = usernameInput.checkValidity()
   if (!usernameIsValid) {
     usernameInput.classList.add("is-invalid")
     if (usernameInput.validity.valueMissing) {
       usernameInput.setCustomValidity("Please input a username.")
-      usernameError.textContent = usernameInput.validationMessage
-      return
     }
     if (usernameInput.validity.tooShort) {
       usernameInput.setCustomValidity("Username must be at least 8 characters.")
-      usernameError.textContent = usernameInput.validationMessage
-      return
     }
     if (usernameInput.validity.patternMismatch) {
       usernameInput.setCustomValidity(
         "Username must contain only letters, numbers, and underscores."
       )
-      usernameError.textContent = usernameInput.validationMessage
-      return
     }
     usernameError.textContent = usernameInput.validationMessage
+    usernameInput.setAttribute("aria-describedby", "username-error")
     return
   } else {
     usernameInput.reportValidity()
@@ -70,20 +73,18 @@ function handleEmailInput() {
   emailInput.classList.remove("is-valid")
   emailInput.classList.remove("is-invalid")
   emailInput.setCustomValidity("")
+  emailInput.removeAttribute("aria-describedby")
   const emailIsValid = emailInput.checkValidity()
   if (!emailIsValid) {
     emailInput.classList.add("is-invalid")
     if (emailInput.validity.valueMissing) {
       emailInput.setCustomValidity("Please input an email address.")
-      emailError.textContent = emailInput.validationMessage
-      return
     }
     if (emailInput.validity.patternMismatch) {
       emailInput.setCustomValidity("Email address must be valid.")
-      emailError.textContent = emailInput.validationMessage
-      return
     }
     emailError.textContent = emailInput.validationMessage
+    emailInput.setAttribute("aria-describedby", "email-error")
     return
   } else {
     emailInput.reportValidity()
@@ -100,29 +101,25 @@ function handlePasswordInput() {
   passwordInput.classList.remove("is-valid")
   passwordInput.classList.remove("is-invalid")
   passwordInput.setCustomValidity("")
+  passwordInput.removeAttribute("aria-describedby")
   const passwordIsValid = passwordInput.checkValidity()
   if (!passwordIsValid) {
     passwordInput.classList.add("is-invalid")
     if (passwordInput.validity.valueMissing) {
       passwordInput.setCustomValidity("Please input a password.")
-      passwordError.textContent = passwordInput.validationMessage
-      return
+    }
+    if (passwordInput.validity.patternMismatch) {
+      passwordInput.setCustomValidity(
+        "Must contain, digits, and special chars (! # $ % & ?)."
+      )
     }
     if (passwordInput.validity.tooShort) {
       passwordInput.setCustomValidity(
         "Password must be at least 12 characters."
       )
-      passwordError.textContent = passwordInput.validationMessage
-      return
-    }
-    if (passwordInput.validity.patternMismatch) {
-      passwordInput.setCustomValidity(
-        "Password can only contain uppercase and lowercase letters, digits, and special characters (#?!@$%^&*-)."
-      )
-      passwordError.textContent = passwordInput.validationMessage
-      return
     }
     passwordError.textContent = passwordInput.validationMessage
+    passwordInput.setAttribute("aria-describedby", "password-error")
     return
   } else {
     passwordInput.reportValidity()
@@ -139,25 +136,31 @@ function handlePasswordConfirmInput() {
   passwordConfirmInput.classList.remove("is-valid")
   passwordConfirmInput.classList.remove("is-invalid")
   passwordConfirmInput.setCustomValidity("")
+  passwordConfirmInput.removeAttribute("aria-describedby")
   const passwordConfirmIsValid = passwordConfirmInput.checkValidity()
   if (!passwordConfirmIsValid) {
     passwordConfirmInput.classList.add("is-invalid")
     if (passwordConfirmInput.validity.valueMissing) {
       passwordConfirmInput.setCustomValidity("Please confirm your password.")
-      passwordConfirmError.textContent = passwordConfirmInput.validationMessage
-      return
     }
     if (passwordConfirmInput.validity.tooShort) {
       passwordConfirmInput.setCustomValidity(
         "Password must be at least 12 characters."
       )
-      passwordConfirmError.textContent = passwordConfirmInput.validationMessage
-      return
     }
+    passwordConfirmError.textContent = passwordConfirmInput.validationMessage
+    passwordConfirmInput.setAttribute(
+      "aria-describedby",
+      "password-confirm-error"
+    )
   } else if (passwordConfirmInput.value !== passwordInput.value) {
     passwordConfirmInput.classList.add("is-invalid")
     passwordConfirmInput.setCustomValidity("Passwords must match.")
     passwordConfirmError.textContent = passwordConfirmInput.validationMessage
+    passwordConfirmInput.setAttribute(
+      "aria-describedby",
+      "password-confirm-error"
+    )
 
     return
   } else {
@@ -180,7 +183,10 @@ function main() {
     passwordConfirmInput.addEventListener(event, handlePasswordConfirmInput)
   })
 
-  form.addEventListener("submit", (event) => handleForm(event), false)
+  form.addEventListener("submit", (event) => {
+    event.preventDefault()
+    handleForm(event)
+  }, false)
 }
 
 document.addEventListener("DOMContentLoaded", main)
