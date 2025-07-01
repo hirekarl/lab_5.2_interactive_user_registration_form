@@ -1,6 +1,7 @@
 function getUsernameFromLocalStorage() {
   const username = localStorage.getItem("username")
-  if (username !== null && username !== "") usernameInput.value = JSON.parse(username)
+  if (username !== null && username !== "")
+    usernameInput.value = JSON.parse(username)
   else localStorage.setItem("username", "")
 }
 
@@ -31,7 +32,6 @@ function handleForm(event) {
   successAlertNewUsernameSpan.textContent = username
   successAlert.hidden = false
   successAlert.setAttribute("aria-hidden", "false")
-
 }
 
 const usernameInput = document.getElementById("username-input")
@@ -45,16 +45,16 @@ function handleUsernameInput() {
   const usernameIsValid = usernameInput.checkValidity()
   if (!usernameIsValid) {
     usernameInput.classList.add("is-invalid")
-    if (usernameInput.validity.valueMissing) {
-      usernameInput.setCustomValidity("Please input a username.")
-    }
-    if (usernameInput.validity.tooShort) {
-      usernameInput.setCustomValidity("Username must be at least 8 characters.")
-    }
     if (usernameInput.validity.patternMismatch) {
       usernameInput.setCustomValidity(
         "Username must contain only letters, numbers, and underscores."
       )
+    }
+    if (usernameInput.validity.tooShort) {
+      usernameInput.setCustomValidity("Username must be at least 8 characters.")
+    }
+    if (usernameInput.validity.valueMissing) {
+      usernameInput.setCustomValidity("Please input a username.")
     }
     usernameError.textContent = usernameInput.validationMessage
     usernameInput.setAttribute("aria-describedby", "username-error")
@@ -78,11 +78,11 @@ function handleEmailInput() {
   const emailIsValid = emailInput.checkValidity()
   if (!emailIsValid) {
     emailInput.classList.add("is-invalid")
-    if (emailInput.validity.valueMissing) {
-      emailInput.setCustomValidity("Please input an email address.")
-    }
-    if (emailInput.validity.patternMismatch) {
+    if (emailInput.validity.typeMismatch) {
       emailInput.setCustomValidity("Email address must be valid.")
+    }
+    if (emailInput.validity.valueMissing) {
+      emailInput.setCustomValidity("Please enter an email address.")
     }
     emailError.textContent = emailInput.validationMessage
     emailInput.setAttribute("aria-describedby", "email-error")
@@ -106,18 +106,18 @@ function handlePasswordInput() {
   const passwordIsValid = passwordInput.checkValidity()
   if (!passwordIsValid) {
     passwordInput.classList.add("is-invalid")
-    if (passwordInput.validity.valueMissing) {
-      passwordInput.setCustomValidity("Please input a password.")
-    }
     if (passwordInput.validity.patternMismatch) {
       passwordInput.setCustomValidity(
-        "Must contain, digits, and special chars (! # $ % & ?)."
+        "Must contain, digits, and special chars: !, #, $, %, &, ?."
       )
     }
     if (passwordInput.validity.tooShort) {
       passwordInput.setCustomValidity(
         "Password must be at least 12 characters."
       )
+    }
+    if (passwordInput.validity.valueMissing) {
+      passwordInput.setCustomValidity("Please input a password.")
     }
     passwordError.textContent = passwordInput.validationMessage
     passwordInput.setAttribute("aria-describedby", "password-error")
@@ -184,10 +184,14 @@ function main() {
     passwordConfirmInput.addEventListener(event, handlePasswordConfirmInput)
   })
 
-  form.addEventListener("submit", (event) => {
-    event.preventDefault()
-    handleForm(event)
-  }, false)
+  form.addEventListener(
+    "submit",
+    (event) => {
+      event.preventDefault()
+      handleForm(event)
+    },
+    false
+  )
 }
 
 document.addEventListener("DOMContentLoaded", main)
