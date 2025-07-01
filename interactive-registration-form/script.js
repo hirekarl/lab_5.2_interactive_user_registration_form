@@ -2,11 +2,21 @@ function getUsernameFromLocalStorage() {
   const username = localStorage.getItem("username")
   if (username !== null && username !== "")
     usernameInput.value = JSON.parse(username)
-  else localStorage.setItem("username", "")
+  else {
+    try {
+      localStorage.setItem("username", "")
+    } catch (error) {
+      console.error("Couldn't save to local storage:", error)
+    }
+  }
 }
 
 function saveUsernameToLocalStorage(username) {
-  localStorage.setItem("username", JSON.stringify(username))
+  try {
+    localStorage.setItem("username", JSON.stringify(username))
+  } catch (error) {
+    console.error("Couldn't save to local storage:", error)
+  }
 }
 
 const form = document.getElementById("form")
@@ -54,7 +64,7 @@ function handleUsernameInput() {
       usernameInput.setCustomValidity("Username must be at least 8 characters.")
     }
     if (usernameInput.validity.valueMissing) {
-      usernameInput.setCustomValidity("Please input a username.")
+      usernameInput.setCustomValidity("Please enter a username.")
     }
     usernameError.textContent = usernameInput.validationMessage
     usernameInput.setAttribute("aria-describedby", "username-error")
@@ -117,7 +127,7 @@ function handlePasswordInput() {
       )
     }
     if (passwordInput.validity.valueMissing) {
-      passwordInput.setCustomValidity("Please input a password.")
+      passwordInput.setCustomValidity("Please enter a password.")
     }
     passwordError.textContent = passwordInput.validationMessage
     passwordInput.setAttribute("aria-describedby", "password-error")
