@@ -37,3 +37,4 @@ Navigate to []() to view the deployed app; view the submission source below.
 Imagine you’re a junior front-end developer at a startup. Your team is building a new web application, and your first task is to create the client-side functionality for the user registration page. It’s crucial that this form is user-friendly, provides clear validation feedback to prevent errors, and perhaps remembers some basic user input for convenience. This lab simulates that task, focusing on creating a responsive and interactive form.
 
 ## Attributions
+- Password Regexp adapted from StackOverflow user [Macmade](https://stackoverflow.com/users/182676/macmade)'s answer at https://stackoverflow.com/a/2370045.
