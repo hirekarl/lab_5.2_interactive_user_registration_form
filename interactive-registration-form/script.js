@@ -52,6 +52,7 @@ function handleForm(event) {
 
   if (!form.checkValidity()) {
     form.reportValidity()
+
     return
   }
 
@@ -77,6 +78,7 @@ function handleUsernameInput() {
   usernameInput.removeAttribute("aria-describedby")
   if (!usernameInput.checkValidity()) {
     usernameInput.classList.add("is-invalid")
+
     if (usernameInput.validity.patternMismatch) {
       usernameInput.setCustomValidity(
         "Username must contain only letters, numbers, and underscores."
@@ -88,14 +90,13 @@ function handleUsernameInput() {
     if (usernameInput.validity.valueMissing) {
       usernameInput.setCustomValidity("Please enter a username.")
     }
+
     usernameError.textContent = usernameInput.validationMessage
     usernameInput.setAttribute("aria-describedby", "username-error")
-    return
   } else {
     usernameInput.reportValidity()
     usernameInput.classList.add("is-valid")
     usernameError.textContent = ""
-    return
   }
 }
 
@@ -105,20 +106,20 @@ function handleEmailInput() {
   emailInput.removeAttribute("aria-describedby")
   if (!emailInput.checkValidity()) {
     emailInput.classList.add("is-invalid")
+
     if (emailInput.validity.typeMismatch) {
       emailInput.setCustomValidity("Email address must be valid.")
     }
     if (emailInput.validity.valueMissing) {
       emailInput.setCustomValidity("Please enter an email address.")
     }
+
     emailError.textContent = emailInput.validationMessage
     emailInput.setAttribute("aria-describedby", "email-error")
-    return
   } else {
     emailInput.reportValidity()
     emailInput.classList.add("is-valid")
     emailError.textContent = ""
-    return
   }
 }
 
@@ -128,6 +129,7 @@ function handlePasswordInput() {
   passwordInput.removeAttribute("aria-describedby")
   if (!passwordInput.checkValidity()) {
     passwordInput.classList.add("is-invalid")
+
     if (passwordInput.validity.patternMismatch) {
       passwordInput.setCustomValidity(
         "Must contain, digits, and special chars: !, #, $, %, &, ?."
@@ -141,14 +143,13 @@ function handlePasswordInput() {
     if (passwordInput.validity.valueMissing) {
       passwordInput.setCustomValidity("Please enter a password.")
     }
+
     passwordError.textContent = passwordInput.validationMessage
     passwordInput.setAttribute("aria-describedby", "password-error")
-    return
   } else {
     passwordInput.reportValidity()
     passwordInput.classList.add("is-valid")
     passwordError.textContent = ""
-    return
   }
 }
 
@@ -158,14 +159,16 @@ function handlePasswordConfirmInput() {
   passwordConfirmInput.removeAttribute("aria-describedby")
   if (!passwordConfirmInput.checkValidity()) {
     passwordConfirmInput.classList.add("is-invalid")
-    if (passwordConfirmInput.validity.valueMissing) {
-      passwordConfirmInput.setCustomValidity("Please confirm your password.")
-    }
+    
     if (passwordConfirmInput.validity.tooShort) {
       passwordConfirmInput.setCustomValidity(
         "Password must be at least 12 characters."
       )
     }
+    if (passwordConfirmInput.validity.valueMissing) {
+      passwordConfirmInput.setCustomValidity("Please confirm your password.")
+    }
+
     passwordConfirmError.textContent = passwordConfirmInput.validationMessage
     passwordConfirmInput.setAttribute(
       "aria-describedby",
@@ -179,12 +182,9 @@ function handlePasswordConfirmInput() {
       "aria-describedby",
       "password-confirm-error"
     )
-
-    return
   } else {
     passwordConfirmInput.reportValidity()
     passwordConfirmInput.classList.add("is-valid")
     passwordConfirmError.textContent = ""
-    return
   }
 }
