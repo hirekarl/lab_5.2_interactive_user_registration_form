@@ -53,6 +53,7 @@
                   class="form-control"
                   minlength="8"
                   pattern="^[a-zA-Z0-9_]{8,}$"
+                  autocomplete="username"
                   required />
                 <span id="username-error" class="text-danger"></span>
               </div>
@@ -63,6 +64,7 @@
                   name="email"
                   id="email-input"
                   class="form-control"
+                  autocomplete="email"
                   required />
                 <span id="email-error" class="text-danger"></span>
               </div>
@@ -76,6 +78,7 @@
                   class="form-control"
                   minlength="12"
                   pattern='^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%&?]).*$'
+                  autocomplete="new-password"
                   required />
                 <span id="password-error" class="text-danger"></span>
               </div>
@@ -87,6 +90,7 @@
                   id="password-confirm-input"
                   class="form-control"
                   minlength="12"
+                  autocomplete="new-password"
                   required />
                 <span id="password-confirm-error" class="text-danger"></span>
               </div>
