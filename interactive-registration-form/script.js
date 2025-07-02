@@ -53,9 +53,8 @@ function saveUsernameToLocalStorage(username) {
 
 function handleForm(event) {
   event.preventDefault()
-
-  form.classList.replace("was-validated", "needs-validation")
   if (!form.checkValidity()) {
+    form.reportValidity()
     return
   }
 
@@ -68,6 +67,11 @@ function handleForm(event) {
   successAlertNewUsernameSpan.textContent = username
   successAlert.hidden = false
   successAlert.setAttribute("aria-hidden", "false")
+
+  passwordInput.value = "******************************"
+  passwordConfirmInput.value = "******************************"
+  form.classList.replace("was-validated", "needs-validation")
+  successAlert.focus()
 }
 
 function handleUsernameInput() {
