@@ -1,4 +1,36 @@
-function getUsernameFromLocalStorage() {
+document.addEventListener("DOMContentLoaded", main)
+
+function main() {
+  setUsernameFromLocalStorage()
+
+  usernameInput.addEventListener("blur", handleUsernameInput)
+  emailInput.addEventListener("blur", handleEmailInput)
+
+  const passwordFieldsEvents = ["input", "focus", "blur", "change"]
+  passwordFieldsEvents.forEach((eventType) => {
+    passwordInput.addEventListener(eventType, handlePasswordInput)
+    passwordConfirmInput.addEventListener(eventType, handlePasswordConfirmInput)
+  })
+
+  form.addEventListener("submit", (event) => handleForm(event), false)
+}
+
+const successAlert = document.getElementById("success-alert")
+const successAlertNewUsernameSpan = document.getElementById("new-username")
+
+const form = document.getElementById("form")
+
+const usernameInput = document.getElementById("username-input")
+const emailInput = document.getElementById("email-input")
+const passwordInput = document.getElementById("password-input")
+const passwordConfirmInput = document.getElementById("password-confirm-input")
+
+const usernameError = document.getElementById("username-error")
+const emailError = document.getElementById("email-error")
+const passwordError = document.getElementById("password-error")
+const passwordConfirmError = document.getElementById("password-confirm-error")
+
+function setUsernameFromLocalStorage() {
   const username = localStorage.getItem("username")
   if (username !== null && username !== "")
     usernameInput.value = JSON.parse(username)
@@ -19,21 +51,15 @@ function saveUsernameToLocalStorage(username) {
   }
 }
 
-const form = document.getElementById("form")
-const successAlert = document.getElementById("success-alert")
-const successAlertNewUsernameSpan = document.getElementById("new-username")
-
 function handleForm(event) {
-  form.classList.remove("was-validated")
-  form.classList.add("needs-validation")
+  event.preventDefault()
+
+  form.classList.replace("was-validated", "needs-validation")
   if (!form.checkValidity()) {
-    form.reportValidity()
-    event.stopPropagation()
     return
   }
 
-  form.classList.remove("needs-validation")
-  form.classList.add("was-validated")
+  form.classList.replace("needs-validation", "was-validated")
 
   const formData = new FormData(form)
   const username = formData.get("username")
@@ -44,16 +70,11 @@ function handleForm(event) {
   successAlert.setAttribute("aria-hidden", "false")
 }
 
-const usernameInput = document.getElementById("username-input")
-const usernameError = document.getElementById("username-error")
-
 function handleUsernameInput() {
-  usernameInput.classList.remove("is-valid")
-  usernameInput.classList.remove("is-invalid")
+  usernameInput.classList.remove("is-valid", "is-invalid")
   usernameInput.setCustomValidity("")
   usernameInput.removeAttribute("aria-describedby")
-  const usernameIsValid = usernameInput.checkValidity()
-  if (!usernameIsValid) {
+  if (!usernameInput.checkValidity()) {
     usernameInput.classList.add("is-invalid")
     if (usernameInput.validity.patternMismatch) {
       usernameInput.setCustomValidity(
@@ -77,16 +98,11 @@ function handleUsernameInput() {
   }
 }
 
-const emailInput = document.getElementById("email-input")
-const emailError = document.getElementById("email-error")
-
 function handleEmailInput() {
-  emailInput.classList.remove("is-valid")
-  emailInput.classList.remove("is-invalid")
+  emailInput.classList.remove("is-valid", "is-invalid")
   emailInput.setCustomValidity("")
   emailInput.removeAttribute("aria-describedby")
-  const emailIsValid = emailInput.checkValidity()
-  if (!emailIsValid) {
+  if (!emailInput.checkValidity()) {
     emailInput.classList.add("is-invalid")
     if (emailInput.validity.typeMismatch) {
       emailInput.setCustomValidity("Email address must be valid.")
@@ -105,16 +121,11 @@ function handleEmailInput() {
   }
 }
 
-const passwordInput = document.getElementById("password-input")
-const passwordError = document.getElementById("password-error")
-
 function handlePasswordInput() {
-  passwordInput.classList.remove("is-valid")
-  passwordInput.classList.remove("is-invalid")
+  passwordInput.classList.remove("is-valid", "is-invalid")
   passwordInput.setCustomValidity("")
   passwordInput.removeAttribute("aria-describedby")
-  const passwordIsValid = passwordInput.checkValidity()
-  if (!passwordIsValid) {
+  if (!passwordInput.checkValidity()) {
     passwordInput.classList.add("is-invalid")
     if (passwordInput.validity.patternMismatch) {
       passwordInput.setCustomValidity(
@@ -140,16 +151,11 @@ function handlePasswordInput() {
   }
 }
 
-const passwordConfirmInput = document.getElementById("password-confirm-input")
-const passwordConfirmError = document.getElementById("password-confirm-error")
-
 function handlePasswordConfirmInput() {
-  passwordConfirmInput.classList.remove("is-valid")
-  passwordConfirmInput.classList.remove("is-invalid")
+  passwordConfirmInput.classList.remove("is-valid", "is-invalid")
   passwordConfirmInput.setCustomValidity("")
   passwordConfirmInput.removeAttribute("aria-describedby")
-  const passwordConfirmIsValid = passwordConfirmInput.checkValidity()
-  if (!passwordConfirmIsValid) {
+  if (!passwordConfirmInput.checkValidity()) {
     passwordConfirmInput.classList.add("is-invalid")
     if (passwordConfirmInput.validity.valueMissing) {
       passwordConfirmInput.setCustomValidity("Please confirm your password.")
@@ -175,33 +181,9 @@ function handlePasswordConfirmInput() {
 
     return
   } else {
-    passwordConfirmInput.classList.add("is-valid")
     passwordConfirmInput.reportValidity()
+    passwordConfirmInput.classList.add("is-valid")
     passwordConfirmError.textContent = ""
     return
   }
 }
-
-function main() {
-  getUsernameFromLocalStorage()
-
-  usernameInput.addEventListener("blur", handleUsernameInput)
-  emailInput.addEventListener("blur", handleEmailInput)
-
-  const passwordFieldsEvents = ["input", "focus", "blur", "change"]
-  passwordFieldsEvents.forEach((event) => {
-    passwordInput.addEventListener(event, handlePasswordInput)
-    passwordConfirmInput.addEventListener(event, handlePasswordConfirmInput)
-  })
-
-  form.addEventListener(
-    "submit",
-    (event) => {
-      event.preventDefault()
-      handleForm(event)
-    },
-    false
-  )
-}
-
-document.addEventListener("DOMContentLoaded", main)
