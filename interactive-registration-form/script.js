@@ -35,11 +35,7 @@ function setUsernameFromLocalStorage() {
   if (username !== null && username !== "")
     usernameInput.value = JSON.parse(username)
   else {
-    try {
-      localStorage.setItem("username", "")
-    } catch (error) {
-      console.error("Couldn't save to local storage:", error)
-    }
+    saveUsernameToLocalStorage("")
   }
 }
 
@@ -53,6 +49,7 @@ function saveUsernameToLocalStorage(username) {
 
 function handleForm(event) {
   event.preventDefault()
+
   if (!form.checkValidity()) {
     form.reportValidity()
     return
@@ -68,8 +65,8 @@ function handleForm(event) {
   successAlert.hidden = false
   successAlert.setAttribute("aria-hidden", "false")
 
-  passwordInput.value = "******************************"
-  passwordConfirmInput.value = "******************************"
+  passwordInput.value = "*".repeat(30)
+  passwordConfirmInput.value = "*".repeat(30)
   form.classList.replace("was-validated", "needs-validation")
   successAlert.focus()
 }
