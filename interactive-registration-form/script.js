@@ -1,3 +1,23 @@
+/*****************************************************************************
+ * Constants                                                                 *
+ *****************************************************************************/
+
+const successAlert = document.getElementById("success-alert")
+const successAlertNewUsernameSpan = document.getElementById("new-username")
+const form = document.getElementById("form")
+const usernameInput = document.getElementById("username-input")
+const emailInput = document.getElementById("email-input")
+const passwordInput = document.getElementById("password-input")
+const passwordConfirmInput = document.getElementById("password-confirm-input")
+const usernameError = document.getElementById("username-error")
+const emailError = document.getElementById("email-error")
+const passwordError = document.getElementById("password-error")
+const passwordConfirmError = document.getElementById("password-confirm-error")
+
+/*****************************************************************************
+ * Main Behavior                                                             *
+ *****************************************************************************/
+
 document.addEventListener("DOMContentLoaded", main)
 
 function main() {
@@ -15,25 +35,13 @@ function main() {
   form.addEventListener("submit", (event) => handleForm(event), false)
 }
 
-const successAlert = document.getElementById("success-alert")
-const successAlertNewUsernameSpan = document.getElementById("new-username")
-
-const form = document.getElementById("form")
-
-const usernameInput = document.getElementById("username-input")
-const emailInput = document.getElementById("email-input")
-const passwordInput = document.getElementById("password-input")
-const passwordConfirmInput = document.getElementById("password-confirm-input")
-
-const usernameError = document.getElementById("username-error")
-const emailError = document.getElementById("email-error")
-const passwordError = document.getElementById("password-error")
-const passwordConfirmError = document.getElementById("password-confirm-error")
+/*****************************************************************************
+ * Local Storage Utilities                                                   *
+ *****************************************************************************/
 
 function setUsernameFromLocalStorage() {
   const username = localStorage.getItem("username")
-  if (username !== null && username !== "")
-    usernameInput.value = JSON.parse(username)
+  if (username !== null && username !== "") usernameInput.value = username
   else {
     saveUsernameToLocalStorage("")
   }
@@ -41,11 +49,15 @@ function setUsernameFromLocalStorage() {
 
 function saveUsernameToLocalStorage(username) {
   try {
-    localStorage.setItem("username", JSON.stringify(username))
+    localStorage.setItem("username", username)
   } catch (error) {
     console.error("Couldn't save to local storage:", error)
   }
 }
+
+/*****************************************************************************
+ * Event Handlers                                                            *
+ *****************************************************************************/
 
 function handleForm(event) {
   event.preventDefault()
@@ -56,19 +68,26 @@ function handleForm(event) {
     return
   }
 
-  form.classList.replace("needs-validation", "was-validated")
-
   const formData = new FormData(form)
   const username = formData.get("username")
   saveUsernameToLocalStorage(username)
 
+  form.reset()
+  form.classList.remove("was-validated")
+
+  setUsernameFromLocalStorage()
+
+  const inputs = [
+    usernameInput,
+    emailInput,
+    passwordInput,
+    passwordConfirmInput,
+  ]
+  inputs.forEach((input) => input.classList.remove("is-valid"))
+
   successAlertNewUsernameSpan.textContent = username
   successAlert.hidden = false
   successAlert.setAttribute("aria-hidden", "false")
-
-  passwordInput.value = "*".repeat(30)
-  passwordConfirmInput.value = "*".repeat(30)
-  form.classList.replace("was-validated", "needs-validation")
   successAlert.focus()
 }
 
@@ -159,7 +178,7 @@ function handlePasswordConfirmInput() {
   passwordConfirmInput.removeAttribute("aria-describedby")
   if (!passwordConfirmInput.checkValidity()) {
     passwordConfirmInput.classList.add("is-invalid")
-    
+
     if (passwordConfirmInput.validity.tooShort) {
       passwordConfirmInput.setCustomValidity(
         "Password must be at least 12 characters."
